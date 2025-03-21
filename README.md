@@ -1,5 +1,8 @@
 # Proyecto de automatizacion de pruebas
 
+- Alejandro Florencio
+- Sprint 8
+
 ## Descripción del Proyecto
 
 El proyecto tiene como objetivo automatizar las pruebas para la aplicacion **Urban Routes**, al solicitar un taxi en linea.
