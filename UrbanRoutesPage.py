@@ -1,133 +1,153 @@
-import Helpers
-import data
-from selenium.webdriver.common.by import By
+import utilities as utils
+from selenium.webdriver.common.keys import Keys
+
 
 class UrbanRoutesPage:
-    from_field = (By.ID, 'from')
-    to_field = (By.ID, 'to')
-    # Localizador del boton pedir un taxi
-    ask_taxi_button = (By.CLASS_NAME, 'button round')
+  def __init__(self, driver):
+    self.driver = driver
 
-    # Localizador del boton confort
-    comfort_button_title = (By.CSS_SELECTOR, '.tcard-title')
 
-    # Localizador del campo del telefono
-    number_field_module = (By.CLASS_NAME, 'np-text')
+  def __find_element(self, elm):
+    return self.driver.find_element(*elm)
 
-    # Localizador del campo para escribir el telefono
-    add_phone = (By.ID, 'phone')
+  def set_from(self, from_address):
+    self.__find_element(utils.from_field).send_keys(from_address)
 
-    # Localizador del boton siguiente
-    phone_next_button = (By.CLASS_NAME, 'button full')
+  def set_to(self, to_address):
+    self.__find_element(utils.to_field).send_keys(to_address)
 
-    # Localizador de texto del telefono
-    phone_text = (By.CSS_SELECTOR, '.np-text')
+  def get_from(self):
+    return self.__find_element(utils.from_field).get_property('value')
 
-    # Localizador del campo codigo
-    phone_code_field = (By.ID, 'code')
+  def get_to(self):
+    return self.__find_element(utils.to_field).get_property('value')
 
-    # Localizador para confirmar el codigo
-    code_confirm_button = (By.XPATH, "//button[@class='button full']")
+  def get_phone_in_field(self):
+    return self.__find_element(utils.phone_field).text
 
-    # Localizador campo de pago
-    payment_field = (By.CLASS_NAME, 'pp-button filled')
+  def get_card_optn(self):
+    return self.__find_element(utils.card_element_verify_if_exists)
 
-    # Localizador para campo de tarjeta
-    add_card_button = (By.CLASS_NAME, 'pp-row disabled')
+  def get_selected_tariff(self):
+    return self.__find_element(utils.selected_tariff).get_attribute('innerHTML')
 
-    # Localizador para agregar los datos de la tarjeta
-    card_number = (By.ID, 'number')
+  def get_current_icecream_count_value(self):
+    return self.__find_element(utils.icecream_counter_value).get_attribute('innerHTML')
 
-    # Localizador para codigo de tarjeta
-    code_card = (By.ID, 'code')
+  def get_comment_for_driver_in_field(self):
+    return self.__find_element(utils.comment_to_driver_field).get_attribute('value')
 
-    # Localizador para presionar en la ventana de agregar tarjeta
-    enable_add_button = (By.CLASS_NAME, 'pp-separator')
+  def is_blanket_and_handkerchief_checkbox_selected(self):
+    return self.__find_element(utils.blanket_and_handkerchief_checkbox).is_selected()
 
-    # Localizador para el boton de tarjeta agregada
-    added_card_button = (By.CLASS_NAME, 'button full')
+  def get_order_screen_title(self):
+    return self.__find_element(utils.order_wait_screen_title).get_attribute('innerText')
 
-    # Localizador para cerrar ventana
-    close_window_button = (By.CLASS_NAME, 'close-button section-close')
+  def begin_cab_request_procedure(self):
+    self.__find_element(utils.request_cab_btn).click()
 
-    # Localizador de seleccion del pago
-    payment_choice = (By.CSS_SELECTOR, '.pp-value-text')
+  def select_comfort_opt(self):
+    self.__find_element(utils.comfort_optn).click()
 
-    # Localizador para el mensaje al conductor
-    driver_message_field = (By.ID, 'comment')
+  def enable_phone_input_dialog(self):
+    self.__find_element(utils.phone_btn).click()
 
-    # Localizador para verificar Mantas y panuelos
-    Mantas_slider = (By.XPATH, "//span[@class='slider round']")
+  def enable_payment_input_dialog(self):
+    self.__find_element(utils.payment_btn).click()
 
-    # Localizador para el contador de helado
-    ice_cream_counter = (By.CLASS_NAME, 'counter-plus')
+  def enable_credit_card_input_dialog(self):
+    self.__find_element(utils.credit_card_optn).click()
 
-    # Localizadorpara la cantidad de helados
-    ice_cream_chosen = (By.CSS_SELECTOR, '.counter-value')
+  def insert_phone_to_dialog(self, phone_number):
+    self.__find_element(utils.add_phone_dialog).send_keys(phone_number)
 
-    # Localizador para enviar la solicitud de taxi
-    send_taxi_request = (By.CLASS_NAME, 'smart-button-main')
+  def confirm_phone_click(self):
+    self.__find_element(utils.confirm_phone).click()
 
-    # Localizador con informacion del conductor
-    diver_information = (By.CLASS_NAME, 'order-header-title')
+  def insert_confirmation_code_to_dialog(self, confirmation_code):
+    self.__find_element(
+        utils.confirmation_code_area).send_keys(confirmation_code)
 
-    def __init__(self, driver):
-        self.driver = driver
+  def confirm_comfirmation_code_click(self):
+    self.__find_element(utils.confirm_code).click()
 
-    def set_route(self, from_address, to_address):
-        self.driver.find_element(*self.from_field).send_keys(from_address)
-        self.driver.find_element(*self.to_field).send_keys(to_address)
+  def insert_credit_card_number_to_field(self, cc_number):
+    self.__find_element(utils.credit_card_number_field).send_keys(cc_number)
 
-    def set_from(self, from_address):
-        self.driver.find_element(*self.from_field).send_keys(from_address)
+  def insert_credit_card_code_to_field(self, cc_code):
+    self.__find_element(utils.credit_card_code_field).send_keys(cc_code)
+    self.__find_element(utils.credit_card_code_field).send_keys(Keys.TAB)
 
-    def set_to(self, to_address):
-        self.driver.find_element(*self.to_field).send_keys(to_address)
+  def click_confirm_credit_card(self):
+    self.__find_element(utils.confirm_credit_card).click()
 
-    def get_from(self):
-        return self.driver.find_element(*self.from_field).get_property('value')
+  def click_close_payment_modal(self):
+    self.__find_element(utils.close_payment_modal_btn).click()
 
-    def get_to(self):
-        return self.driver.find_element(*self.to_field).get_property('value')
+  def insert_comment_for_driver(self, message_for_driver):
+    self.__find_element(utils.comment_to_driver_field).send_keys(
+        message_for_driver)
 
-    def ask_taxi_option(self):
-        return self.driver.find_element(*self.ask_taxi_button).click()
+  def select_cloth_and_napkins(self):
+    self.__find_element(utils.blanket_and_handkerchief_slider).click()
 
-    def comfort_rate_button(self):
-        return self.driver.find_element(*self.comfort_button_title).click()
+  def select_add_icecream(self):
+    self.__find_element(utils.icecream_counter_plus).click()
 
-    def add_phone_number_method(self, phone_number):
-        self.driver.find_element(*self.number_field_module).click()
-        self.driver.find_element(*self.add_phone).send_keys(data.phone_number)
-        self.driver.find_element(*self.phone_next_button).click()
-        self.driver.find_element(*self.phone_code_field).send_keys(Helpers.retrieve_phone_code)
+  def click_book_trip(self):
+    self.__find_element(utils.book_cab_btn).click()
 
-    def confirm_phone_code(self):
-        self.driver.find_element(*self.code_confirm_button).click()
+  def set_route(self, address_from, address_to):
+    utils.wait_for_presence_input_field(self.driver, utils.to_field)
+    self.set_from(address_from)
+    self.set_to(address_to)
 
-    def add_payment_method(self, card_number, card_code):
-        self.driver.find_element(*self.payment_field).click()
-        self.driver.find_element(*self.add_card_button).click()
-        self.driver.find_element(*self.card_number).send_keys(data.card_number)
-        self.driver.find_element(*self.code_card).send_keys(data.card_code)
-        self.driver.find_element(*self.enable_add_button).click()
-        self.driver.find_element(*self.added_card_button).click()
+  def request_comfort_cab(self):
+    utils.wait_for_clickable_element(self.driver, utils.request_cab_btn)
+    self.begin_cab_request_procedure()
+    utils.wait_for_clickable_element(self.driver, utils.comfort_optn)
+    self.select_comfort_opt()
 
-    def driver_message(self, driver_comment):
-        self.driver.find_element(*self.driver_message_field).send_keys(data.message_for_driver)
+  def set_phone_number(self, phone_number):
+    utils.wait_for_clickable_element(self.driver, utils.phone_btn)
+    self.enable_phone_input_dialog()
+    utils.wait_for_presence_input_field(self.driver, utils.add_phone_dialog)
+    self.insert_phone_to_dialog(phone_number)
+    utils.wait_for_clickable_element(self.driver, utils.confirm_phone)
+    self.confirm_phone_click()
+    code = utils.retrieve_phone_code(self.driver)
+    utils.wait_for_presence_input_field(
+        self.driver, utils.confirmation_code_area)
+    self.insert_confirmation_code_to_dialog(code)
+    utils.wait_for_clickable_element(self.driver, utils.confirm_code)
+    self.confirm_comfirmation_code_click()
 
-    def manta_requirements(self):
-        self.driver.find_element(*self.Mantas_slider).click()
+  def set_credit_card_number(self, card_number, card_code):
+    utils.wait_for_clickable_element(self.driver, utils.payment_btn)
+    self.enable_payment_input_dialog()
+    utils.wait_for_clickable_element(self.driver, utils.credit_card_optn)
+    self.enable_credit_card_input_dialog()
+    utils.wait_for_presence_input_field(
+        self.driver, utils.credit_card_number_field)
+    self.insert_credit_card_number_to_field(card_number)
+    self.insert_credit_card_code_to_field(card_code)
+    utils.wait_for_clickable_element(self.driver, utils.confirm_credit_card)
+    self.click_confirm_credit_card()
+    utils.wait_for_clickable_element(
+        self.driver, utils.close_payment_modal_btn)
+    self.click_close_payment_modal()
 
-    def ice_cream_choice(self):
-        self.driver.find_element(*self.ice_cream_counter).click()
-        self.driver.find_element(*self.ice_cream_counter).click()
+  def fill_extra_options(self, message_for_driver):
+    utils.wait_for_presence_input_field(
+        self.driver, utils.requirements_form_open)
+    self.insert_comment_for_driver(message_for_driver)
+    self.select_cloth_and_napkins()
+    self.select_add_icecream()
+    self.select_add_icecream()
 
-    def is_manta_selected(self):
-        return self.driver.find_element(*self.Mantas_slider).is_selected()
+  def book_trip(self):
+    self.click_book_trip()
+    utils.wait_for_visible_element(self.driver, utils.order_wait_screen)
 
-    def end_request(self):
-        self.driver.find_element(*self.send_taxi_request).click()
-
-    def is_send_request_button_is_displayed(self):
-        return self.driver.find_element(*self.send_taxi_request).is_displayed()
+  def wait_confirmation(self):
+    utils.wait_for_visible_element(self.driver, utils.trip_confirmation, 55)

@@ -23,6 +23,10 @@ main.py                # Este archivo contiene las pruebas
 - **ChromeDriver**: Driver específico para controlar Google Chrome mediante Selenium.
 - **Pytest**: Framework de pruebas para ejecutar y organizar los casos de prueba.
 
+![Python](https://img.shields.io/badge/python-3.11.3-blue?logo=python)
+![Pytest](https://img.shields.io/badge/pytest-8.2.0-blue?logo=pytest)
+![Selenium](https://img.shields.io/badge/selenium-4.20.0-darkgreen?logo=selenium)
+
 ## Pruebas
 - **Configurar la dirección**
 - **Seleccionar la tarifa Comfort**

@@ -1,89 +1,66 @@
-import Helpers
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import data
 from selenium import webdriver
-from selenium.webdriver.chrome import webdriver
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-from UrbanRoutesPage import UrbanRoutesPage
-
+import UrbanRoutesPage as urban_routes_pom
 
 
 class TestUrbanRoutes:
 
-    driver = None
+  driver = None
 
-    @classmethod
-    def setup_class(cls):
-        # no lo modifiques, ya que necesitamos un registro adicional habilitado para recuperar el código de confirmación del teléfono
-        options = Options()
-        options.set_capability("goog:loggingPrefs", {'performance': 'ALL'})
+  @classmethod
+  def setup_class(cls):
+    # Registro adicional habilitado para recuperar el código de confirmación del teléfono
+    from selenium.webdriver.chrome.options import Options as ChromeOptions
+    chrome_options = ChromeOptions()
+    chrome_options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
+    cls.driver = webdriver.Chrome(options=chrome_options)
+    cls.driver.maximize_window()
+    cls.driver.delete_all_cookies()
 
-        cls.driver = webdriver.Chrome(service=Service(), options=options)
 
-    def test_set_route(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        address_from = data.address_from
-        address_to = data.address_to
-        WebDriverWait(self.driver, 3)
-        routes_page.set_route(address_from, address_to)
-        assert routes_page.get_from() == address_from
-        assert routes_page.get_to() == address_to
+  def test_set_route(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.driver.get(data.urban_routes_url)
+    test_driver.set_route(data.address_from, data.address_to)
+    assert test_driver.get_from() == data.address_from
+    assert test_driver.get_to() == data.address_to
 
-    def test_set_conf_taxi_request(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        ask_taxi = routes_page.ask_taxi_option()
-        WebDriverWait(self.driver, 5).until(expected_conditions.element_located_to_be_selected(ask_taxi))
-        routes_page.comfort_rate_button()
-        assert routes_page.comfort_button_title == 'Comfort'
+  # Seleccionar la tarifa comfort
+  def test_request_comfort_cab(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.request_comfort_cab()
+    assert test_driver.get_selected_tariff() == "Comfort"
 
-    def test_add_phone_number(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        phone_number = data.phone_number
-        routes_page.add_phone_number_method(phone_number)
-        Helpers.retrieve_phone_code(self.driver)
-        WebDriverWait(self.driver, 5).until(
-            expected_conditions.text_to_be_present_in_element(UrbanRoutesPage.phone_code_field, data.phone_number))
-        routes_page.confirm_phone_code()
-        assert UrbanRoutesPage.phone_text == data.phone_number
+  # Agregar numero telefonico
+  def test_set_phone_number(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.set_phone_number(data.phone_number)
+    assert test_driver.get_phone_in_field() == data.phone_number
 
-    def test_add_payment_method(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        card_number = data.card_number
-        card_code = data.card_code
-        routes_page.add_payment_method(card_number, card_code)
-        assert UrbanRoutesPage.payment_choice == 'Tarjeta'
+  # Agregar tarjeta de credito
+  def test_set_credit_card_number(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.set_credit_card_number(data.card_number, data.card_code)
+    assert test_driver.get_card_optn() != None
 
-    def test_driver_comment(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        driver_comment = data.message_for_driver
-        routes_page.driver_message(driver_comment)
-        assert data.message_for_driver == UrbanRoutesPage.driver_message_field
+  # Agregar mensaje y pedir helados, manta y panuelos
+  def test_fill_extra_options(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.fill_extra_options(data.message_for_driver)
+    assert test_driver.get_current_icecream_count_value() == "2"
+    assert test_driver.get_comment_for_driver_in_field() == data.message_for_driver
+    assert test_driver.is_blanket_and_handkerchief_checkbox_selected() == True
 
-    def test_manta_request(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        routes_page.manta_requirements()
-        assert routes_page.is_manta_selected(), 'El campo de Manta y panuelos no esta seleccionada'
+  # Agendar un taxi
+  def test_book_trip(self):
+    test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
+    test_driver.book_trip()
+    assert test_driver.get_order_screen_title() == "Buscar automóvil"
+    test_driver.wait_confirmation()
+    assert "El conductor llegará en" in test_driver.get_order_screen_title()
 
-    def ice_cream_request(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        routes_page.ice_cream_choice()
-        assert UrbanRoutesPage.ice_cream_chosen == '2'
-
-    def test_wait_for_taxi_modal(self):
-        self.driver.get(data.urban_routes_url)
-        routes_page = UrbanRoutesPage(self.driver)
-        routes_page.end_request()
-        WebDriverWait(self.driver, 10).until(
-            expected_conditions.visibility_of_element_located(UrbanRoutesPage.diver_information))
-        assert routes_page.is_send_request_button_is_displayed(), 'El botón pedir taxi no está habilitado'
-
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit()
+  @classmethod
+  def teardown_class(cls):
+    cls.driver.quit()
