@@ -27,7 +27,7 @@ class TestUrbanRoutes:
     assert test_driver.get_from() == data.address_from
     assert test_driver.get_to() == data.address_to
 
-  # Seleccionar la tarifa comfort
+  # Seleccionar la tarifa comforT
   def test_request_comfort_cab(self):
     test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
     test_driver.request_comfort_cab()

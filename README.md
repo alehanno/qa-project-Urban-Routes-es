@@ -2,6 +2,7 @@
 
 - Alejandro Florencio
 - Sprint 8
+- Marzo 2025
 
 ## Descripción del Proyecto
 
