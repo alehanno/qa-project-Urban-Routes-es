@@ -2,58 +2,42 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 
-# Localizadores para la navegacion
+# Localizadores para la navegación
 from_field = (By.ID, 'from')
 to_field = (By.ID, 'to')
-request_cab_btn = (
-    By.XPATH, "//div[@class='results-text']//button[@type='button']")
+request_cab_btn = (By.XPATH, "//div[@class='results-text']//button[@type='button']")
 comfort_optn = (By.XPATH, "//*[contains(text(),'Comfort')]")
-selected_tariff = (
-    By.XPATH, "//div[@class='tariff-picker shown']//div[@class='tariff-cards']//div[@class='tcard active']//div[@class='tcard-title']")
+selected_tariff = (By.XPATH, "//div[@class='tariff-picker shown']//div[@class='tariff-cards']//div[@class='tcard active']//div[@class='tcard-title']")
 
-# Localizadores para el telefono
+# Localizadores para el teléfono
 phone_btn = (By.CLASS_NAME, "np-button")
 phone_field = (By.CLASS_NAME, "np-text")
 add_phone_dialog = (By.ID, "phone")
-confirm_phone = (
-    By.XPATH, "//div[@class='section active']//form//div[@class='buttons']//button[@type='submit']")
+confirm_phone = (By.XPATH, "//div[@class='section active']//form//div[@class='buttons']//button[@type='submit']")
 confirmation_code_area = (By.ID, "code")
-confirm_code = (
-    By.XPATH, "//div[@class='section active']//form//div[@class='buttons']//button[@type='submit']")
+confirm_code = (By.XPATH, "//div[@class='section active']//form//div[@class='buttons']//button[@type='submit']")
 
-# Localizadores para la tarjeta de credito
+# Localizadores para la tarjeta de crédito
 payment_btn = (By.CLASS_NAME, "pp-button")
 credit_card_optn = (By.CLASS_NAME, "pp-plus")
 credit_card_number_field = (By.ID, "number")
-credit_card_code_field = (
-    By.XPATH, "//div[@class='card-code-input']//input[@id='code']")
-confirm_credit_card = (
-    By.XPATH, "//div[@class='pp-buttons']//button[@type='submit']")
-close_payment_modal_btn = (
-    By.XPATH, "//div[@class='payment-picker open']//div[@class='modal']//div[@class='section active']//button[@class='close-button section-close']")
-card_element_verify_if_exists = (
-    By.XPATH, "//div[@class='pp-button filled']//img[@alt='card']")
+credit_card_code_field = (By.XPATH, "//div[@class='card-code-input']//input[@id='code']")
+confirm_credit_card = (By.XPATH, "//div[@class='pp-buttons']//button[@type='submit']")
+close_payment_modal_btn = (By.XPATH, "//div[@class='payment-picker open']//div[@class='modal']//div[@class='section active']//button[@class='close-button section-close']")
+card_element_verify_if_exists = (By.XPATH, "//div[@class='pp-button filled']//img[@alt='card']")
 
 # Localizadores para los helados
-requirements_form_open = (
-    By.XPATH, "//div[@class='form']//div[@class='reqs open']")
+requirements_form_open = (By.XPATH, "//div[@class='form']//div[@class='reqs open']")
 comment_to_driver_field = (By.ID, "comment")
-blanket_and_handkerchief_slider = (
-    By.XPATH, "//div[@class='r-sw-container']/*[contains(text(),'Manta')]/..//div[@class='switch']")
-icecream_counter_plus = (
-    By.XPATH, "//div[contains(text(),'Helado')]/..//div[@class='counter-plus']")
-icecream_counter_value = (
-    By.XPATH, "//div[contains(text(),'Helado')]/..//div[@class='counter-value']")
-blanket_and_handkerchief_checkbox = (
-    By.XPATH, "//div[@class='r-sw-container']/*[contains(text(),'Manta')]/..//div[@class='switch']//input[@class='switch-input']")
+blanket_and_handkerchief_slider = (By.XPATH, "//div[@class='r-sw-container']/*[contains(text(),'Manta')]/..//div[@class='switch']")
+icecream_counter_plus = (By.CSS_SELECTOR, "div.counter-plus") # Usando CSS Selector
+icecream_counter_value = (By.XPATH, "//div[contains(text(),'Helado')]/..//div[@class='counter-value']")
+blanket_and_handkerchief_checkbox = (By.XPATH, "//div[@class='r-sw-container']/*[contains(text(),'Manta')]/..//div[@class='switch']//input[@class='switch-input']")
 
-# Localizadores para la pantalla de confirmacion
-order_wait_screen = (
-    By.XPATH, "//div[@class='order shown']")
-order_wait_screen_title = (
-    By.XPATH, "//div[@class='order shown']//div[@class='order-body']//div[@class='order-header']//div[@class='order-header-title']")
-trip_confirmation = (
-    By.XPATH, "//div[@class='order shown']//div[@class='order-body']//div[@class='order-header']//div[@class='order-number']")
+# Localizadores para la pantalla de confirmación
+order_wait_screen = (By.XPATH, "//div[@class='order shown']")
+order_wait_screen_title = (By.XPATH, "//div[@class='order shown']//div[@class='order-body']//div[@class='order-header']//div[@class='order-header-title']")
+trip_confirmation = (By.XPATH, "//div[@class='order shown']//div[@class='order-body']//div[@class='order-header']//div[@class='order-number']")
 book_cab_btn = (By.CLASS_NAME, 'smart-button-main')
 
 

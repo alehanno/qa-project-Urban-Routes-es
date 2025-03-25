@@ -1,7 +1,8 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 import utilities as utils
 from selenium.webdriver.common.keys import Keys
-
-
+from selenium.webdriver.common.by import By
 
 class UrbanRoutesPage:
   def __init__(self, driver):
@@ -90,13 +91,50 @@ class UrbanRoutesPage:
         message_for_driver)
 
   def select_cloth_and_napkins(self):
-    self.__find_element(utils.blanket_and_handkerchief_slider).click()
+    wait = WebDriverWait(self.driver, 10)
+    element = wait.until(
+      expected_conditions.element_to_be_clickable(utils.blanket_and_handkerchief_slider)
+    )
+    self.driver.execute_script("arguments[0].scrollIntoView();", element)
+    element.click()
+
+  def is_blanket_and_handkerchief_checkbox_selected(self):
+    wait = WebDriverWait(self.driver, 10)
+    element = wait.until(
+      expected_conditions.presence_of_element_located(utils.blanket_and_handkerchief_checkbox)
+    )
+    return element.is_selected()
+
+  def fill_extra_options(self, message_for_driver):
+    utils.wait_for_presence_input_field(self.driver, utils.requirements_form_open)
+    self.insert_comment_for_driver(message_for_driver)
+    self.select_cloth_and_napkins()
+    self.select_add_icecream()
+    self.select_add_icecream()
 
   def select_add_icecream(self):
     self.__find_element(utils.icecream_counter_plus).click()
 
   def click_book_trip(self):
-    self.__find_element(utils.book_cab_btn).click()
+    wait = WebDriverWait(self.driver, 10)
+    element = wait.until(
+      expected_conditions.element_to_be_clickable(utils.book_cab_btn)
+    )
+    self.driver.execute_script("arguments[0].scrollIntoView();", element)
+    element.click()
+
+  def book_trip(self):
+    wait = WebDriverWait(self.driver, 10)
+    # Espera a que el overlay sea visible
+    wait.until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "overlay")))
+    # Espera a que el overlay sea invisible
+    wait.until(expected_conditions.invisibility_of_element_located((By.CLASS_NAME, "overlay")),
+               message="El overlay no desapareció después de 10 segundos")
+    self.click_book_trip()
+    utils.wait_for_visible_element(self.driver, utils.order_wait_screen)
+
+  def wait_confirmation(self):
+    utils.wait_for_visible_element(self.driver, utils.trip_confirmation, 55)
 
   def set_route(self, address_from, address_to):
     utils.wait_for_presence_input_field(self.driver, utils.to_field)

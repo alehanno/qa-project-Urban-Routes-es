@@ -41,10 +41,17 @@ main.py                # Este archivo contiene las pruebas
 - **Pedir 2 helados**
 - **Aparece el modal para buscar un taxi**
 
-## Para comenzar las pruebas
+## Para comenzar las pruebas **sugerencia del revisor**
 - Clonar el repositorio:
 - git clone git@github.com:username/qa-project-Urban-Routes-es.git
-- Correr main.py
+- Abrir PyCharm
+- Ir a File, Open, Buscar la carpeta donde guardamos los archivos clonados del repositorio, seleccionar los archivos, data, main, urbanroutes, utilities y readme.
+- seleccionar el archivo main.py
+- asegurarse de que es el archivo actual (current file)
+- presionar play para comenzar la ejecucion del programa main.py
+
+
+
 
 
 
