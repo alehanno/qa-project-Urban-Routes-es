@@ -1,3 +1,5 @@
+from pickle import FALSE
+
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import data
@@ -47,19 +49,19 @@ class TestUrbanRoutes:
 
     def test_comment_for_driver(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_options(data.message_for_driver)
+        test_driver.fill_extra_option(data.message_for_driver)
         time.sleep(2)
         assert test_driver.get_comment_for_driver_in_field() == data.message_for_driver
 
     def test_order_blanket_and_handkerchiefs(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_options(data.message_for_driver)
+        test_driver.fill_extra_option(data.message_for_driver)
         time.sleep(2)
         assert test_driver.is_blanket_and_handkerchief_checkbox_selected() == False
 
     def test_order_2_ice_creams(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_options(data.message_for_driver)
+        test_driver.fill_extra_option(data.message_for_driver)
         time.sleep(2)
         assert test_driver.get_current_icecream_count_value() == "2"
 
