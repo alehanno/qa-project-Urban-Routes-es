@@ -1,5 +1,3 @@
-from pickle import FALSE
-
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import data
@@ -13,12 +11,10 @@ class TestUrbanRoutes:
 
     @classmethod
     def setup_class(cls):
-        from selenium.webdriver.chrome.options import Options as ChromeOptions
-        chrome_options = ChromeOptions()
-        chrome_options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
-        cls.driver = webdriver.Chrome(options=chrome_options)
-        cls.driver.maximize_window()
-        cls.driver.delete_all_cookies()
+        # no lo modifiques, ya que necesitamos un registro adicional habilitado para recuperar el código de confirmación del teléfono
+        options = Options()
+        options.set_capability("goog:loggingPrefs", {'performance': 'ALL'})
+        cls.driver = webdriver.Chrome(service=Service(), options=options)
 
     def test_set_route(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
@@ -49,19 +45,19 @@ class TestUrbanRoutes:
 
     def test_comment_for_driver(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_option(data.message_for_driver)
+        test_driver.fill_extra_options(data.message_for_driver)
         time.sleep(2)
         assert test_driver.get_comment_for_driver_in_field() == data.message_for_driver
 
     def test_order_blanket_and_handkerchiefs(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_option(data.message_for_driver)
+        test_driver.fill_extra_options(data.message_for_driver)
         time.sleep(2)
         assert test_driver.is_blanket_and_handkerchief_checkbox_selected() == False
 
     def test_order_2_ice_creams(self):
         test_driver = urban_routes_pom.UrbanRoutesPage(self.driver)
-        test_driver.fill_extra_option(data.message_for_driver)
+        test_driver.fill_extra_options(data.message_for_driver)
         time.sleep(2)
         assert test_driver.get_current_icecream_count_value() == "2"
 

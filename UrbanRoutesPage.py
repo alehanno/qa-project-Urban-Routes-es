@@ -95,7 +95,7 @@ class UrbanRoutesPage:
     element.click()
 
   def is_blanket_and_handkerchief_checkbox_selected(self):
-    wait = WebDriverWait(self.driver, 5)  # Espera hasta 5  segundos
+    wait = WebDriverWait(self.driver, 10)  # Espera hasta 10 segundos
     element = wait.until(EC.presence_of_element_located(utils.blanket_and_handkerchief_checkbox))
     return element.is_selected()
 
@@ -152,7 +152,7 @@ class UrbanRoutesPage:
         self.driver, utils.close_payment_modal_btn)
     self.click_close_payment_modal()
 
-  def fill_extra_option(self, message_for_driver):
+  def fill_extra_options(self, message_for_driver):
     utils.wait_for_presence_input_field(
         self.driver, utils.requirements_form_open)
     self.insert_comment_for_driver(message_for_driver)
@@ -165,4 +165,4 @@ class UrbanRoutesPage:
     utils.wait_for_visible_element(self.driver, utils.order_wait_screen)
 
   def wait_confirmation(self):
-    utils.wait_for_visible_element(self.driver, utils.trip_confirmation, 55)
+    utils.wait_for_visible_element(self.driver, utils.trip_confirmation, 5)
